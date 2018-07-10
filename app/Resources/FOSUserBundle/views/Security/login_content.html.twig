@@ -1,0 +1,44 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% if error %}
+    <div class="row">
+        <div class="col-sm-offset-2 col-sm-6">
+            <br />
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        </div>
+    </div>
+{% endif %}
+<div id="login_wrapper">
+    <div id="login_content">
+        <div class="logo">
+            <img src="assets/img/logo/ml-logo.png" alt="logo" class="logo-img">
+        </div>
+        <h1 class="login-title">{{ "Sign In to your account"|trans }}</h1>
+        <div class="login-body">
+            <form action="{{ path("fos_user_security_check") }}" method="post">
+                {% if csrf_token %}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                {% endif %}
+                <div class="form-group label-floating is-empty">
+                    <label class="control-label" for="_username">{{ 'security.login.username'|trans }}</label>
+                    <input class="form-control" type="text" id="username" name="_username" value="" required="required" />
+                    <input id="_target_path" class="form-control" name="_target_path" type="hidden" value="{{ path('easyadmin') }}">
+                </div>
+                <div class="form-group label-floating is-empty">
+                    <label class="control-label" for="_password">{{ 'security.login.password'|trans }}</label>
+                    <input class="form-control" type="password" id="password" name="_password" required="required" />
+                </div>
+                <a href="{{ path("fos_user_resetting_request") }}" class="forgot-pass pull-right">{{ "Forgot Password?"|trans }}</a>
+                <div class="checkbox inline-block">
+                    <label>
+                        <input type="checkbox" id="remember_me" name="_remember_me" />
+                        {{ 'security.login.remember_me'|trans }}
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-info btn-block m-t-40" id="_submit" name="_submit">
+                    <i class="fa fa-login"></i>
+                    {{ 'security.login.submit'|trans }}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+{% extends 'page.html.twig' %}
+{% block content %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="assets/css/vendor.bundle.css">
+        <link rel="stylesheet" href="assets/css/app.bundle.css">
+        <link rel="stylesheet" href="assets/css/theme-a.css">
+    {% endblock %}
+    {% block flash_messages %}
+        {% for msg in app.session.flashBag.get('notice') %}
+            <div class="alert alert-success">
+                {{ msg }}
+            </div>
+        {% endfor %}
+
+        {% for msg in app.session.flashBag.get('error') %}
+            <div class="alert alert-danger">
+                {{ msg }}
+            </div>
+        {% endfor %}
+    {% endblock flash_messages %}
+    {% block fos_user_content %}{% endblock %}
+{% endblock %}

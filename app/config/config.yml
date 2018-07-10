@@ -1,0 +1,117 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    available_locales: ["%locale%", "de"]
+    uploads_path: /uploads
+
+framework:
+    #esi: ~
+    translator: { fallbacks: ['%locale%'] }
+    templating:
+        engines: ['twig', 'php']
+    secret: '%secret%'
+    router:
+        resource: '%kernel.project_dir%/app/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    session:
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: null
+        cookie_secure: true
+        cookie_httponly: true
+    fragments: ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    globals:
+        uploads_path: "%uploads_path%"
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset:  "%database_charset%"
+        options:
+            1002: "SET NAMES '%database_charset%' COLLATE '%database_collation%'"
+        mapping_types:
+            enum: string
+        logging:  true
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "%sender_email%"
+        sender_name: "%sender_name%"
+
+vich_uploader:
+    db_driver: orm
+    mappings:
+        uploads:
+            uri_prefix: '%uploads_path%'
+            upload_destination: '%kernel.root_dir%/../web%uploads_path%'
+
+easy_admin:
+    site_name: 'Example Admin'
+    formats:
+        date:     'd.m.Y'
+        time:     'H:i'
+        datetime: 'd.m.Y H:i:s'
+        number:   '%.0u'
+    list:
+        max_results: 20
+    design:
+        brand_color: '#1ABC9C'
+        assets:
+            favicon: '/assets/backend/favicon.png'
+        menu:
+            - { entity: 'User', label: 'Manage Users', icon: 'users', role: ROLE_ADMIN }
+    entities:
+        User:
+            class: AppBundle\Entity\User
+            help: 'Global message displayed in all views'
+            label: 'Users'
+            list:
+                title: '%%entity_label%% Listing'
