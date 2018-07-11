@@ -20,7 +20,7 @@ class Tag extends AbstractEntity
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", mappedBy="tags", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", inversedBy="tags", cascade={"remove"})
      */
     private $courses;
 
