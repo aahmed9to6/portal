@@ -1,0 +1,93 @@
+{% extends 'site.html.twig' %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block content %}
+  <!-- BANNER SECTION -->
+  <section class="clearfix homeBanner" style="background-image: url(/site-assets/img/banner/banner1.jpg);">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="banerInfo">
+            <h1>Learn, Share, and Repeat</h1>
+            <p>We will help to find out great things around you</p>
+            <form class="form-inline" action="">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-addon">Find</div>
+                  <input type="text" class="form-control" id="findItem" placeholder="What are you looking for?">
+                  <div class="input-group-addon addon-right"></div>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Search <i class="fa fa-search" aria-hidden="true"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- INTEREST SECTION -->
+  <section class="clearfix interestArea">
+    <div class="container">
+      <div class="page-header text-center">
+        <h2>What are You Interested in? <small>Explore and download from <strong>{{ project_name }}</strong> by <em>{{ organization_name }}</em></small></h2>
+      </div>
+      <div class="row">
+        <div class="col-sm-3 col-xs-12">
+          <a href="" class="interestContent">
+            <span>
+                <i class="icon-listy icon-open-book"></i>Track A
+            </span>
+          </a>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <a href="" class="interestContent">
+            <span>
+                <i class="icon-listy icon-open-book"></i>Track B
+            </span>
+          </a>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <a href="" class="interestContent">
+            <span>
+                <i class="icon-listy icon-open-book"></i>Track C
+            </span>
+          </a>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <a href="" class="interestContent">
+            <span>
+                <i class="icon-listy icon-open-book"></i>Track D
+            </span>
+          </a>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <a href="" class="interestContent">
+            <span>
+                <i class="icon-listy icon-open-book"></i>Track E
+            </span>
+          </a>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <a href="" class="interestContent">
+            <span>
+                <i class="icon-listy icon-open-book"></i>Track F
+            </span>
+          </a>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <a href="" class="interestContent">
+            <span>
+                <i class="icon-listy icon-open-book"></i>Track G
+            </span>
+          </a>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+          <a href="" class="interestContent">
+            <span>
+                <i class="icon-listy icon-more"></i>View All
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

@@ -48,6 +48,9 @@ twig:
         images_path: "%images_path%"
         logo_url: "%logo_url%"
         favicon_url: "%favicon_url%"
+        organization_url: "%organization_url%"
+        organization_name: "%organization_name%"
+        project_name: "%project_name%"
 
 # Doctrine Configuration
 doctrine:
@@ -120,14 +123,14 @@ easy_admin:
         assets:
             favicon: '%favicon_url%'
         menu:
-            - { entity: 'User', label: 'Manage Users', icon: 'users', role: ROLE_ADMIN }
+            - { entity: 'User', label: 'Manage Users', icon: 'users', role: ROLE_APP_ADMIN }
             - label: 'Manage Trainings'
               icon: 'archive'
-              role: ROLE_ADMIN
+              role: ROLE_APP_ADMIN
               children:
-                - { entity: 'Track', label: 'Manage Learning Tracks', icon: 'folder', role: ROLE_ADMIN }
-                - { entity: 'Course', label: 'Manage Courses', icon: 'file', role: ROLE_ADMIN }
-                - { entity: 'Tag', label: 'Manage Tags', icon: 'tags', role: ROLE_ADMIN }
+                - { entity: 'Track', label: 'Manage Learning Tracks', icon: 'folder', role: ROLE_APP_ADMIN }
+                - { entity: 'Course', label: 'Manage Courses', icon: 'file', role: ROLE_APP_ADMIN }
+                - { entity: 'Tag', label: 'Manage Tags', icon: 'tags', role: ROLE_APP_ADMIN }
 #            - label: 'Configurations'
 #              icon: 'cogs'
 #              role: ROLE_ADMIN
@@ -138,7 +141,7 @@ easy_admin:
         User:
             class: AppBundle\Entity\User
             controller: AppBundle\Controller\Dashboard\UserController
-            role: ROLE_ADMIN
+            role: ROLE_APP_ADMIN
             label: 'Users'
             list:
                 title: '%%entity_label%% Listing'
@@ -196,7 +199,7 @@ easy_admin:
         Course:
             class: AppBundle\Entity\Course
             controller: AppBundle\Controller\Dashboard\CourseController
-            role: ROLE_ADMIN
+            role: ROLE_APP_ADMIN
             label: 'Courses'
             list:
                 title: '%%entity_label%% Listing'
@@ -258,7 +261,7 @@ easy_admin:
         Track:
             class: AppBundle\Entity\Track
             controller: AppBundle\Controller\Dashboard\TrackController
-            role: ROLE_ADMIN
+            role: ROLE_APP_ADMIN
             label: 'Learning Tracks'
             list:
                 title: '%%entity_label%% Listing'
@@ -311,7 +314,7 @@ easy_admin:
         Tag:
             class: AppBundle\Entity\Tag
             controller: AppBundle\Controller\Dashboard\TagController
-            role: ROLE_ADMIN
+            role: ROLE_APP_ADMIN
             label: 'Course Tags'
             list:
                 title: '%%entity_label%% Listing'

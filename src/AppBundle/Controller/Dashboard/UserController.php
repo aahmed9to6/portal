@@ -27,17 +27,26 @@ class UserController extends BaseAdminController
         return null;
     }
 
+    /**
+     * @return \FOS\UserBundle\Model\UserInterface|mixed
+     */
     public function createNewUserEntity()
     {
         return $this->get('fos_user.user_manager')->createUser();
     }
 
+    /**
+     * @param $user
+     */
     public function persistUserEntity($user)
     {
         $this->get('fos_user.user_manager')->updateUser($user, false);
         parent::persistEntity($user);
     }
 
+    /**
+     * @param $user
+     */
     public function updateUserEntity($user)
     {
         $this->get('fos_user.user_manager')->updateUser($user, false);

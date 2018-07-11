@@ -19,7 +19,7 @@ services:
     AppBundle\:
         resource: '../../src/AppBundle/*'
         # you can exclude directories or files
-        exclude: '../../src/AppBundle/{Entity,Repository,Tests,Security,DataFixtures}'
+        exclude: '../../src/AppBundle/{Entity,Repository,Tests,Security,DataFixtures,Enum}'
 
     # Controllers
     AppBundle\Controller\:

@@ -18,6 +18,7 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     project_name: 'Portal X'
     organization_name: 'Company Ltd.'
+    organization_url: 'https://example.org'
     logo_url: 'https://example.org/logo.png'
     favicon_url: 'https://example.org/favicon.ico'
     sender_email: 'info@example.com'
