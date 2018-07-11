@@ -3,9 +3,6 @@
 namespace AppBundle\Controller\Dashboard;
 
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController as BaseAdminController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,48 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends BaseAdminController
 {
-
-    /**
-     * @return mixed
-     */
-    public function createNewUserEntity(): AccessDeniedHttpException
-    {
-        return new AccessDeniedHttpException(
-            $this->get('translator')->trans('Sorry! This action is not allowed.')
-        );
-    }
-
-    /**
-     * @param $user
-     */
-    public function prePersistUserEntity($user): void
-    {
-        $this->get('fos_user.user_manager')->updateUser($user, false);
-    }
-
-    /**
-     * @param $user
-     */
-    public function preUpdateUserEntity($user): void
-    {
-        $this->get('fos_user.user_manager')->updateUser($user, false);
-    }
-
-    /**
-     * @param Request $request
-     * @return string
-     * @Route("/check-access", name="checkAccess")
-     */
-    public function checkAccessAction(Request $request): string
-    {
-        $requiredRole  = $request->request->get('role');
-        if (!$this->isGranted($requiredRole)) {
-            return new JsonResponse(['status' => false]);
-        }
-        return new JsonResponse(['status' => true]);
-    }
-
-
     /**
      * Shows current user details
      * @Route("my-profile", name="my_profile")
@@ -72,13 +27,20 @@ class UserController extends BaseAdminController
         return null;
     }
 
-    /**
-     * @return AccessDeniedHttpException
-     */
-    public function deleteUserAction(): AccessDeniedHttpException
+    public function createNewUserEntity()
     {
-        return new AccessDeniedHttpException(
-            $this->get('translator')->trans('Sorry! This action is not allowed.')
-        );
+        return $this->get('fos_user.user_manager')->createUser();
+    }
+
+    public function persistUserEntity($user)
+    {
+        $this->get('fos_user.user_manager')->updateUser($user, false);
+        parent::persistEntity($user);
+    }
+
+    public function updateUserEntity($user)
+    {
+        $this->get('fos_user.user_manager')->updateUser($user, false);
+        parent::updateEntity($user);
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\DataFixtures;
+namespace AppBundle\DataFixture;
 
 use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;

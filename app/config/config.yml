@@ -1,6 +1,7 @@
 imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
+    - { resource: repository.yml }
     - { resource: services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
@@ -8,6 +9,11 @@ parameters:
     locale: en
     available_locales: ["%locale%", "de"]
     uploads_path: /uploads
+    images_path: /images
+    dropdown_status:
+        Active: 1
+        Inactive: 0
+    dropdown_roles: { 'Data Entry Operator': 'ROLE_DEO', 'Administrator': 'ROLE_ADMIN', 'Staff': 'ROLE_STAFF' }
 
 framework:
     #esi: ~
@@ -39,7 +45,9 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         uploads_path: "%uploads_path%"
+        images_path: "%images_path%"
         logo_url: "%logo_url%"
+        favicon_url: "%favicon_url%"
 
 # Doctrine Configuration
 doctrine:
@@ -86,6 +94,9 @@ vich_uploader:
         uploads:
             uri_prefix: '%uploads_path%'
             upload_destination: '%kernel.root_dir%/../web%uploads_path%'
+        images:
+            uri_prefix: '%images_path%'
+            upload_destination: '%kernel.root_dir%/../web%images_path%'
 
 # TimeStamps related Configuration
 stof_doctrine_extensions:
@@ -95,7 +106,7 @@ stof_doctrine_extensions:
 
 # EasyAdminBundle Configuration
 easy_admin:
-    site_name: '<img src="%logo_url%" />'
+    site_name: '<img src="%logo_url%" title=" %project_name% by %organization_name%" />'
     formats:
         date:     'd.m.Y'
         time:     'H:i'
@@ -107,10 +118,22 @@ easy_admin:
         brand_color: '#F9B000'
         color_scheme: 'light'
         assets:
-            favicon: 'http://coeus-solutions.de/sites/all/themes/coeus/images/favicon.ico'
+            favicon: '%favicon_url%'
         menu:
             - { entity: 'User', label: 'Manage Users', icon: 'users', role: ROLE_ADMIN }
-            - { entity: 'Course', label: 'Manage Courses', icon: 'users', role: ROLE_ADMIN }
+            - label: 'Manage Trainings'
+              icon: 'archive'
+              role: ROLE_ADMIN
+              children:
+                - { entity: 'Track', label: 'Manage Learning Tracks', icon: 'folder', role: ROLE_ADMIN }
+                - { entity: 'Course', label: 'Manage Courses', icon: 'file', role: ROLE_ADMIN }
+                - { entity: 'Tag', label: 'Manage Tags', icon: 'tags', role: ROLE_ADMIN }
+#            - label: 'Configurations'
+#              icon: 'cogs'
+#              role: ROLE_ADMIN
+#              children:
+#                - { label: 'Preferences', route: 'shop_settings', icon: 'cogs', role: ROLE_ADMIN }
+
     entities:
         User:
             class: AppBundle\Entity\User
@@ -119,8 +142,9 @@ easy_admin:
             label: 'Users'
             list:
                 title: '%%entity_label%% Listing'
-                help: 'A list of all the uploaded courses'
+                help: 'A list of all the users at <strong>%project_name%</strong> by <em>%organization_name%</em>'
                 fields:
+                    - { property: 'fullName', label: 'Full Name' }
                     - { property: 'username', label: 'Username' }
                     - { property: 'email', label: 'Email' }
                     - { property: 'enabled', label: 'Active', type: 'toggle' }
@@ -128,13 +152,15 @@ easy_admin:
                     - { property: 'roles', label: 'Role(s)' }
 #                    - { property: 'courses', label: 'Course(s)' }
                 actions:
+                    - 'show'
                     - 'new'
                     - 'edit'
                     - 'delete'
             show:
                 title: "User Details"
-                help: 'Details of a specific course'
+                help: 'Details of a specific user'
                 fields:
+                    - { property: 'fullName', label: 'Full Name' }
                     - { property: 'username', label: 'Username' }
                     - { property: 'email', label: 'Email' }
                     - { property: 'enabled', label: 'Active', type: 'toggle' }
@@ -142,9 +168,31 @@ easy_admin:
                     - { property: 'roles', label: 'Role(s)' }
 #                    - { property: 'courses', label: 'Course(s)' }
                 actions:
-                    - '-list'
-                    - '-edit'
-                    - '-delete'
+                    - 'edit'
+                    - 'delete'
+                    - 'list'
+            new:
+                title: "Add New User"
+                help: 'Add new user to <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                fields:
+                    - { property: 'fullName', label: 'Full Name' }
+                    - { property: 'username', label: 'Username' }
+                    - { property: 'email', label: 'Email', type: 'email', type_options: { required: true } }
+                    - { property: 'enabled', label: 'Active', type: 'choice', type_options: { choices: '%dropdown_status%' } }
+                    - { property: 'plainPassword', type: 'text', type_options: { required: true } }
+                    - { property: 'roles', label: 'Role(s)', type: 'choice', type_options: { multiple: true, choices: '%dropdown_roles%' } }
+                form_options: { validation_groups: ['Registration'] }
+            edit:
+                title: "Edit User"
+                help: 'Edit user from <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                fields:
+                    - { property: 'fullName', label: 'Full Name' }
+                    - { property: 'username', label: 'Username' }
+                    - { property: 'email', label: 'Email', type: 'email' }
+                    - { property: 'enabled', label: 'Active', type: 'choice', type_options: { choices: '%dropdown_status%' } }
+                    - { property: 'plainPassword', type: 'text', type_options: { required: false} }
+                    - { property: 'roles', label: 'Role(s)', type: 'choice', type_options: { multiple: true, choices: '%dropdown_roles%' } }
+                form_options: { validation_groups: ['Profile'] }
         Course:
             class: AppBundle\Entity\Course
             controller: AppBundle\Controller\Dashboard\CourseController
@@ -152,13 +200,16 @@ easy_admin:
             label: 'Courses'
             list:
                 title: '%%entity_label%% Listing'
-                help: 'A list of all the uploaded courses'
+                help: 'A list of all the uploaded courses at <strong>%project_name%</strong> by <em>%organization_name%</em>'
                 fields:
                     - { property: 'title', label: 'Title' }
+                    - { property: 'thumb', label: 'Thumbnail', type: 'image', base_path: '%images_path%' }
                     - { property: 'link', label: 'Link' }
                     - { property: 'outDated', label: 'Is Upto Date?', type: 'boolean' }
                     - { property: 'tags', label: 'Tag(s)' }
+                    - { property: 'status', label: 'Active', type: 'toggle' }
                 actions:
+                    - 'show'
                     - 'new'
                     - 'edit'
                     - 'delete'
@@ -167,23 +218,127 @@ easy_admin:
                 help: 'Details of a specific course'
                 fields:
                     - { property: 'title', label: 'Title' }
+                    - { property: 'description', label: 'Description', type: 'raw' }
+                    - { property: 'thumb', label: 'Thumbnail', type: 'image', base_path: '%images_path%' }
                     - { property: 'link', label: 'Link' }
+                    - { property: 'download', label: 'Tutorial File', type: 'file', base_path: '%uploads_path%' }
                     - { property: 'outDated', label: 'Is Upto Date?' }
                     - { property: 'tags', label: 'Tag(s)' }
+                    - { property: 'status', label: 'Active', type: 'boolean' }
                 actions:
-                    - '-list'
-                    - '-edit'
-                    - '-delete'
+                    - 'edit'
+                    - 'delete'
+                    - 'list'
             new:
                 title: "Add New Course"
-                help: 'Add new course to library'
+                help: 'Add new course to <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                    - { property: 'description', label: 'Description', type: 'ckeditor' }
+                    - { property: 'thumbFile', label: 'Thumbnail', type: 'vich_image' }
+                    - { property: 'link', label: 'Link', type: 'url' }
+                    - { property: 'downloadFile', label: 'Tutorial File', type: 'file', help: 'Kindly upload zip file if course contains more than one files' }
+                    - { property: 'outDated', label: 'Is Upto Date?' }
+                    - { property: 'tracks', label: 'Learning Track(s)' }
+                    - { property: 'tags', label: 'Tag(s)' }
+                    - { property: 'status', label: 'Active', type: 'choice', type_options: { choices: '%dropdown_status%' } }
+            edit:
+                title: "Edit Course"
+                help: 'Edit course from <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                    - { property: 'description', label: 'Description', type: 'ckeditor' }
+                    - { property: 'thumbFile', label: 'Thumbnail', type: 'vich_image' }
+                    - { property: 'link', label: 'Link', type: 'url' }
+                    - { property: 'downloadFile', label: 'Tutorial File', type: 'file', help: 'Kindly upload zip file if course contains more than one files' }
+                    - { property: 'outDated', label: 'Is Upto Date?' }
+                    - { property: 'tracks', label: 'Learning Track(s)' }
+                    - { property: 'tags', label: 'Tag(s)' }
+                    - { property: 'status', label: 'Active', type: 'choice', type_options: { choices: '%dropdown_status%' } }
+        Track:
+            class: AppBundle\Entity\Track
+            controller: AppBundle\Controller\Dashboard\TrackController
+            role: ROLE_ADMIN
+            label: 'Learning Tracks'
+            list:
+                title: '%%entity_label%% Listing'
+                help: 'A list of all the uploaded learning tracks available at <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                    - { property: 'thumb', label: 'Thumbnail', type: 'image', base_path: '%images_path%' }
+                    - { property: 'link', label: 'Link' }
+                    - { property: 'courses', label: 'Course(s)' }
+                    - { property: 'status', label: 'Active', type: 'toggle' }
+                actions:
+                    - 'show'
+                    - 'new'
+                    - 'edit'
+                    - 'delete'
+            show:
+                title: "Learning Track Details"
+                help: 'Details of a specific Learning Track'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                    - { property: 'description', label: 'Description', type: 'raw' }
+                    - { property: 'thumb', label: 'Thumbnail', type: 'image', base_path: '%images_path%' }
+                    - { property: 'link', label: 'Link' }
+                    - { property: 'courses', label: 'Course(s)' }
+                    - { property: 'status', label: 'Active', type: 'boolean' }
+                actions:
+                    - 'edit'
+                    - 'delete'
+                    - 'list'
+            new:
+                title: "Add New Learning Track"
+                help: 'Add new Learning Track to <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                    - { property: 'description', label: 'Description', type: 'ckeditor' }
+                    - { property: 'thumbFile', label: 'Thumbnail', type: 'vich_image' }
+                    - { property: 'link', label: 'Link', type: 'url' }
+                    - { property: 'courses', label: 'Course(s)' }
+                    - { property: 'status', label: 'Active', type: 'choice', type_options: { choices: '%dropdown_status%' } }
+            edit:
+                title: "Edit Learning Track"
+                help: 'Edit Learning Track from <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                    - { property: 'description', label: 'Description', type: 'ckeditor' }
+                    - { property: 'thumbFile', label: 'Thumbnail', type: 'vich_image' }
+                    - { property: 'link', label: 'Link', type: 'url' }
+                    - { property: 'courses', label: 'Course(s)' }
+                    - { property: 'status', label: 'Active', type: 'choice', type_options: { choices: '%dropdown_status%' } }
+        Tag:
+            class: AppBundle\Entity\Tag
+            controller: AppBundle\Controller\Dashboard\TagController
+            role: ROLE_ADMIN
+            label: 'Course Tags'
+            list:
+                title: '%%entity_label%% Listing'
+                help: 'A list of all the courses related tags available at <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                actions:
+                    - 'new'
+                    - 'edit'
+                    - 'delete'
+            show:
+                title: "Course Tag Details"
+                help: 'Details of a specific Course Tag'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                actions:
+                    - 'list'
+                    - 'edit'
+                    - 'delete'
+            new:
+                title: "Add New Course Tag"
+                help: 'Add new Course Tag to <strong>%project_name%</strong> by <em>%organization_name%</em>'
                 fields:
                     - { property: 'title', label: 'Title' }
                     - { property: 'description', label: 'Description', type: 'ckeditor' }
                     - { property: 'link', label: 'Link', type: 'url' }
-                    - { property: 'outDated', label: 'Is Upto Date?' }
-                    - { property: 'tracks', label: 'Learning Track(s)' }
-                    - { property: 'tags', label: 'Tag(s)' }
+                    - { property: 'courses', label: 'Course(s)' }
 
 ivory_ck_editor:
       input_sync: true

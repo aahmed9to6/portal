@@ -47,7 +47,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface
                 'easyadmin',
                 [
                     'action' => 'list',
-                    'entity' => 'User',
+                    'entity' => 'Course',
                 ],
                 UrlGeneratorInterface::ABSOLUTE_PATH
             );

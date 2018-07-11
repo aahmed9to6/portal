@@ -28,7 +28,7 @@ class User extends BaseUser
     /**
      * @return string
      */
-    public function getFullName(): string
+    public function getFullName(): ?string
     {
         return $this->fullName;
     }

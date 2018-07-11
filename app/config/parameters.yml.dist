@@ -4,7 +4,7 @@
 parameters:
     database_host: 127.0.0.1
     database_port: 3306
-    database_name: symfony
+    database_name: database_name
     database_user: root
     database_password: ~
     database_charset: utf8mb4
@@ -16,6 +16,9 @@ parameters:
     mailer_password: ~
 
     secret: ThisTokenIsNotSoSecretChangeIt
-    logo_url: 'https://schema.org/logo'
+    project_name: 'Portal X'
+    organization_name: 'Company Ltd.'
+    logo_url: 'https://example.org/logo.png'
+    favicon_url: 'https://example.org/favicon.ico'
     sender_email: 'info@example.com'
     sender_name: 'John Doe'

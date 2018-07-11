@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @package AppBundle\Entity
 
  * @ORM\Entity()
- * @ORM\Table()
  */
 class Tag extends AbstractEntity
 {
@@ -36,7 +35,7 @@ class Tag extends AbstractEntity
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -54,7 +53,7 @@ class Tag extends AbstractEntity
     /**
      * @return ArrayCollection
      */
-    public function getCourses(): ArrayCollection
+    public function getCourses(): ?ArrayCollection
     {
         return $this->courses;
     }

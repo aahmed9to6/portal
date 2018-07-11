@@ -1,0 +1,6 @@
+services:
+#    app.repository.<entity_name>:
+#        class: 'AppBundle\Repository\<Entity>Repository'
+#        factory: ["@doctrine", 'getRepository']
+#        arguments:
+#            - 'AppBundle:<Entity>'

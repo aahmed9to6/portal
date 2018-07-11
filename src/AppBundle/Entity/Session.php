@@ -5,8 +5,10 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * Class Session
+ * @package AppBundle\Entity
+ *
  * @ORM\Entity()
- * @ORM\Table()
  */
 class Session
 {

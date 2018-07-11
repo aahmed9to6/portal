@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package AppBundle\Entity
 
  * @ORM\Entity()
- * @ORM\Table()
+ * @Vich\Uploadable
  */
 class Track extends AbstractEntity
 {
@@ -25,7 +27,19 @@ class Track extends AbstractEntity
     private $description;
 
     /**
-     * @ORM\Column(type="string", options={"collation":"utf8mb4_unicode_ci"})
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    private $thumb;
+
+    /**
+     * @Vich\UploadableField(mapping="images", fileNameProperty="thumb")
+     * @var File
+     */
+    private $thumbFile;
+
+    /**
+     * @ORM\Column(type="string", nullable=true, options={"collation":"utf8mb4_unicode_ci"})
      */
     private $link;
 
@@ -46,7 +60,15 @@ class Track extends AbstractEntity
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function __toString(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -64,7 +86,7 @@ class Track extends AbstractEntity
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -80,9 +102,48 @@ class Track extends AbstractEntity
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLink(): string
+    public function getThumb(): ?string
+    {
+        return $this->thumb;
+    }
+
+    /**
+     * @param null|string $thumb
+     * @return Track
+     */
+    public function setThumb(?string $thumb): Track
+    {
+        $this->thumb = $thumb;
+        return $this;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getThumbFile(): ?File
+    {
+        return $this->thumbFile;
+    }
+
+    /**
+     * @param null|File $thumbFile
+     * @return Track
+     */
+    public function setThumbFile(?File $thumbFile): Track
+    {
+        $this->thumbFile = $thumbFile;
+        if ($thumbFile) {
+            $this->updated = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLink(): ?string
     {
         return $this->link;
     }
@@ -100,7 +161,7 @@ class Track extends AbstractEntity
     /**
      * @return ArrayCollection
      */
-    public function getCourses(): ArrayCollection
+    public function getCourses()
     {
         return $this->courses;
     }

@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package AppBundle\Entity
 
  * @ORM\Entity()
- * @ORM\Table()
+ * @Vich\Uploadable
  */
 class Course extends AbstractEntity
 {
@@ -23,6 +25,30 @@ class Course extends AbstractEntity
      * @ORM\Column(type="text", options={"collation":"utf8mb4_unicode_ci"})
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    private $thumb;
+
+    /**
+     * @Vich\UploadableField(mapping="images", fileNameProperty="thumb")
+     * @var File
+     */
+    private $thumbFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    private $download;
+
+    /**
+     * @Vich\UploadableField(mapping="uploads", fileNameProperty="download")
+     * @var File
+     */
+    private $downloadFile;
 
     /**
      * @ORM\Column(type="string", options={"collation":"utf8mb4_unicode_ci"})
@@ -91,6 +117,84 @@ class Course extends AbstractEntity
     }
 
     /**
+     * @return null|string
+     */
+    public function getThumb(): ?string
+    {
+        return $this->thumb;
+    }
+
+    /**
+     * @param null|string $thumb
+     * @return Course
+     */
+    public function setThumb(?string $thumb): Course
+    {
+        $this->thumb = $thumb;
+        return $this;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getThumbFile(): ?File
+    {
+        return $this->thumbFile;
+    }
+
+    /**
+     * @param null|File $thumbFile
+     * @return Course
+     */
+    public function setThumbFile(?File $thumbFile): Course
+    {
+        $this->thumbFile = $thumbFile;
+        if ($thumbFile) {
+            $this->updated = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDownload(): ?string
+    {
+        return $this->download;
+    }
+
+    /**
+     * @param null|string $download
+     * @return Course
+     */
+    public function setDownload(?string $download): Course
+    {
+        $this->download = $download;
+        return $this;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getDownloadFile(): ?File
+    {
+        return $this->downloadFile;
+    }
+
+    /**
+     * @param null|File $downloadFile
+     * @return Course
+     */
+    public function setDownloadFile(?File $downloadFile): Course
+    {
+        $this->downloadFile = $downloadFile;
+        if ($downloadFile) {
+            $this->updated = new \DateTime('now');
+        }
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getLink(): ?string
@@ -129,7 +233,7 @@ class Course extends AbstractEntity
     /**
      * @return ArrayCollection
      */
-    public function getTracks(): ?ArrayCollection
+    public function getTracks()
     {
         return $this->tracks;
     }
@@ -147,7 +251,7 @@ class Course extends AbstractEntity
     /**
      * @return ArrayCollection
      */
-    public function getTags(): ?ArrayCollection
+    public function getTags()
     {
         return $this->tags;
     }
