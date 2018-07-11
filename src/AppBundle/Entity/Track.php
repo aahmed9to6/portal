@@ -30,8 +30,7 @@ class Track extends AbstractEntity
     private $link;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Track", inversedBy="tracks")
-     * @ORM\JoinTable(name="tracks_courses")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", inversedBy="tracks")
      */
     private $courses;
 
@@ -45,72 +44,72 @@ class Track extends AbstractEntity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      * @return Track
      */
-    public function setTitle($title)
+    public function setTitle($title): Track
     {
         $this->title = $title;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
-     * @param mixed $description
+     * @param string $description
      * @return Track
      */
-    public function setDescription($description)
+    public function setDescription($description): Track
     {
         $this->description = $description;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLink()
+    public function getLink(): string
     {
         return $this->link;
     }
 
     /**
-     * @param mixed $link
+     * @param string $link
      * @return Track
      */
-    public function setLink($link)
+    public function setLink($link): Track
     {
         $this->link = $link;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getCourses()
+    public function getCourses(): ArrayCollection
     {
         return $this->courses;
     }
 
     /**
-     * @param mixed $courses
+     * @param Course[] $courses
      * @return Track
      */
-    public function setCourses($courses)
+    public function setCourses($courses): Track
     {
         $this->courses = $courses;
         return $this;

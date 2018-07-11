@@ -11,10 +11,36 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User extends BaseUser
 {
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string", options={"collation":"utf8mb4_unicode_ci"})
+     */
+    private $fullName;
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->fullName;
+    }
+
+    /**
+     * @param string $fullName
+     * @return User
+     */
+    public function setFullName($fullName): User
+    {
+        $this->fullName = $fullName;
+        return $this;
+    }
+
 }

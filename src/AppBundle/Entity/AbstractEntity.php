@@ -50,7 +50,7 @@ abstract class AbstractEntity
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -68,7 +68,7 @@ abstract class AbstractEntity
     /**
      * @return \DateTime
      */
-    public function getCreated(): \DateTime
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
@@ -86,7 +86,7 @@ abstract class AbstractEntity
     /**
      * @return \DateTime
      */
-    public function getUpdated(): \DateTime
+    public function getUpdated(): ?\DateTime
     {
         return $this->updated;
     }
@@ -104,7 +104,7 @@ abstract class AbstractEntity
     /**
      * @return mixed
      */
-    public function getStatus()
+    public function getStatus(): ?bool
     {
         return $this->status;
     }

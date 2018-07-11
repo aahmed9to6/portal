@@ -10,8 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class        UserController
- * @package     Ekomi\AdminBundle\Controller
- * @author      Abdullah Ahmed <abdullah.ahmed@coeus-solutions.de>
+ * @package     AppBundle\Controller\Dashboard
+ * @author      Abdullah Ahmed <info@abdullah89.com>
  */
 
 class UserController extends BaseAdminController
@@ -20,7 +20,7 @@ class UserController extends BaseAdminController
     /**
      * @return mixed
      */
-    public function createNewUserEntity()
+    public function createNewUserEntity(): AccessDeniedHttpException
     {
         return new AccessDeniedHttpException(
             $this->get('translator')->trans('Sorry! This action is not allowed.')
@@ -30,7 +30,7 @@ class UserController extends BaseAdminController
     /**
      * @param $user
      */
-    public function prePersistUserEntity($user)
+    public function prePersistUserEntity($user): void
     {
         $this->get('fos_user.user_manager')->updateUser($user, false);
     }
@@ -38,7 +38,7 @@ class UserController extends BaseAdminController
     /**
      * @param $user
      */
-    public function preUpdateUserEntity($user)
+    public function preUpdateUserEntity($user): void
     {
         $this->get('fos_user.user_manager')->updateUser($user, false);
     }
@@ -48,14 +48,13 @@ class UserController extends BaseAdminController
      * @return string
      * @Route("/check-access", name="checkAccess")
      */
-    public function checkAccessAction(Request $request)
+    public function checkAccessAction(Request $request): string
     {
         $requiredRole  = $request->request->get('role');
         if (!$this->isGranted($requiredRole)) {
             return new JsonResponse(['status' => false]);
-        } else {
-            return new JsonResponse(['status' => true]);
         }
+        return new JsonResponse(['status' => true]);
     }
 
 
@@ -64,7 +63,7 @@ class UserController extends BaseAdminController
      * @Route("my-profile", name="my_profile")
      * @return null|string
      */
-    public function profileAction()
+    public function profileAction(): ?string
     {
         $userId = $this->getUser()->getId();
         if (!empty($userId)) {
@@ -76,10 +75,10 @@ class UserController extends BaseAdminController
     /**
      * @return AccessDeniedHttpException
      */
-    public function deleteUserAction()
+    public function deleteUserAction(): AccessDeniedHttpException
     {
         return new AccessDeniedHttpException(
-            $this->get('translator')->trans("Sorry! This action is not allowed.")
+            $this->get('translator')->trans('Sorry! This action is not allowed.')
         );
     }
 }

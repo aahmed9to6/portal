@@ -2,6 +2,7 @@
 
 namespace AppBundle\Security;
 
+use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
@@ -41,7 +42,7 @@ class AuthenticationHandler implements AuthenticationSuccessHandlerInterface
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         $url = $this->router->generate('easyadmin');
-        if ($this->authChecker->isGranted('ROLE_USER')) {
+        if ($this->authChecker->isGranted(User::ROLE_ADMIN)) {
             $url = $this->router->generate(
                 'easyadmin',
                 [

@@ -55,63 +55,63 @@ class Course extends AbstractEntity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      * @return Course
      */
-    public function setTitle($title)
+    public function setTitle($title): Course
     {
         $this->title = $title;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param mixed $description
+     * @param string $description
      * @return Course
      */
-    public function setDescription($description)
+    public function setDescription($description): Course
     {
         $this->description = $description;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLink()
+    public function getLink(): ?string
     {
         return $this->link;
     }
 
     /**
-     * @param mixed $link
+     * @param string $link
      * @return Course
      */
-    public function setLink($link)
+    public function setLink($link): Course
     {
         $this->link = $link;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return boolean
      */
-    public function getOutDated()
+    public function getOutDated(): ?bool
     {
         return $this->outDated;
     }
@@ -120,47 +120,45 @@ class Course extends AbstractEntity
      * @param mixed $outDated
      * @return Course
      */
-    public function setOutDated($outDated)
+    public function setOutDated($outDated): Course
     {
         $this->outDated = $outDated;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getTracks()
+    public function getTracks(): ?ArrayCollection
     {
         return $this->tracks;
     }
 
     /**
-     * @param mixed $tracks
+     * @param Track[] $tracks
      * @return Course
      */
-    public function setTracks($tracks)
+    public function setTracks($tracks): Course
     {
         $this->tracks = $tracks;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getTags()
+    public function getTags(): ?ArrayCollection
     {
         return $this->tags;
     }
 
     /**
-     * @param mixed $tags
+     * @param Tag[] $tags
      * @return Course
      */
-    public function setTags($tags)
+    public function setTags($tags): Course
     {
         $this->tags = $tags;
         return $this;
     }
-
-
 }

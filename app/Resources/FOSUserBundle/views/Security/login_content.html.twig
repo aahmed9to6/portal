@@ -1,7 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 {% if error %}
     <div class="row">
-        <div class="col-sm-offset-2 col-sm-6">
+        <div class="col-sm-offset-2 col-sm-8">
             <br />
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         </div>
@@ -10,7 +10,7 @@
 <div id="login_wrapper">
     <div id="login_content">
         <div class="logo">
-            <img src="assets/img/logo/ml-logo.png" alt="logo" class="logo-img">
+            <img src="{{ logo_url }}" alt="logo" class="logo-img">
         </div>
         <h1 class="login-title">{{ "Sign In to your account"|trans }}</h1>
         <div class="login-body">

@@ -4,7 +4,6 @@ imports:
     - { resource: services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
     available_locales: ["%locale%", "de"]
@@ -26,11 +25,8 @@ framework:
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
-        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id: session.handler.native_file
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\PdoSessionHandler
         save_path: null
-        cookie_secure: true
-        cookie_httponly: true
     fragments: ~
     http_method_override: true
     assets: ~
@@ -43,6 +39,8 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         uploads_path: "%uploads_path%"
+        logo_url: "%logo_url%"
+
 # Doctrine Configuration
 doctrine:
     dbal:
@@ -58,12 +56,6 @@ doctrine:
         mapping_types:
             enum: string
         logging:  true
-        # if using pdo_sqlite as your database driver:
-        #   1. add the path in parameters.yml
-        #     e.g. database_path: '%kernel.project_dir%/var/data/data.sqlite'
-        #   2. Uncomment database_path in parameters.yml.dist
-        #   3. Uncomment next line:
-        #path: '%database_path%'
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -78,14 +70,16 @@ swiftmailer:
     password: '%mailer_password%'
     spool: { type: memory }
 
+# FOSUser Bundle Configuration
 fos_user:
-    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
     from_email:
         address: "%sender_email%"
         sender_name: "%sender_name%"
 
+# File Upload Configuration
 vich_uploader:
     db_driver: orm
     mappings:
@@ -93,8 +87,15 @@ vich_uploader:
             uri_prefix: '%uploads_path%'
             upload_destination: '%kernel.root_dir%/../web%uploads_path%'
 
+# TimeStamps related Configuration
+stof_doctrine_extensions:
+    orm:
+        default:
+            timestampable: true
+
+# EasyAdminBundle Configuration
 easy_admin:
-    site_name: '<img src="http://coeus-solutions.de/sites/all/themes/coeus/images/logo_coeus.png" />'
+    site_name: '<img src="%logo_url%" />'
     formats:
         date:     'd.m.Y'
         time:     'H:i'
@@ -104,6 +105,7 @@ easy_admin:
         max_results: 20
     design:
         brand_color: '#F9B000'
+        color_scheme: 'light'
         assets:
             favicon: 'http://coeus-solutions.de/sites/all/themes/coeus/images/favicon.ico'
         menu:
@@ -112,10 +114,12 @@ easy_admin:
     entities:
         User:
             class: AppBundle\Entity\User
-            help: 'User Management'
+            controller: AppBundle\Controller\Dashboard\UserController
+            role: ROLE_ADMIN
             label: 'Users'
             list:
                 title: '%%entity_label%% Listing'
+                help: 'A list of all the uploaded courses'
                 fields:
                     - { property: 'username', label: 'Username' }
                     - { property: 'email', label: 'Email' }
@@ -124,11 +128,12 @@ easy_admin:
                     - { property: 'roles', label: 'Role(s)' }
 #                    - { property: 'courses', label: 'Course(s)' }
                 actions:
-                    - '-new'
-                    - '-edit'
-                    - '-delete'
+                    - 'new'
+                    - 'edit'
+                    - 'delete'
             show:
                 title: "User Details"
+                help: 'Details of a specific course'
                 fields:
                     - { property: 'username', label: 'Username' }
                     - { property: 'email', label: 'Email' }
@@ -142,21 +147,24 @@ easy_admin:
                     - '-delete'
         Course:
             class: AppBundle\Entity\Course
-            help: 'A list of all the uploaded courses'
+            controller: AppBundle\Controller\Dashboard\CourseController
+            role: ROLE_ADMIN
             label: 'Courses'
             list:
                 title: '%%entity_label%% Listing'
+                help: 'A list of all the uploaded courses'
                 fields:
                     - { property: 'title', label: 'Title' }
                     - { property: 'link', label: 'Link' }
                     - { property: 'outDated', label: 'Is Upto Date?', type: 'boolean' }
                     - { property: 'tags', label: 'Tag(s)' }
                 actions:
-                    - '-new'
-                    - '-edit'
-                    - '-delete'
+                    - 'new'
+                    - 'edit'
+                    - 'delete'
             show:
                 title: "Course Details"
+                help: 'Details of a specific course'
                 fields:
                     - { property: 'title', label: 'Title' }
                     - { property: 'link', label: 'Link' }
@@ -166,3 +174,20 @@ easy_admin:
                     - '-list'
                     - '-edit'
                     - '-delete'
+            new:
+                title: "Add New Course"
+                help: 'Add new course to library'
+                fields:
+                    - { property: 'title', label: 'Title' }
+                    - { property: 'description', label: 'Description', type: 'ckeditor' }
+                    - { property: 'link', label: 'Link', type: 'url' }
+                    - { property: 'outDated', label: 'Is Upto Date?' }
+                    - { property: 'tracks', label: 'Learning Track(s)' }
+                    - { property: 'tags', label: 'Tag(s)' }
+
+ivory_ck_editor:
+      input_sync: true
+      default_config: default
+      configs:
+          default:
+              toolbar: [['Bold', 'Italic', 'Underline', 'Subscript', 'Superscript', '-', 'NumberedList', 'BulletedList'], ['Link', 'Unlink'], ['Find', '-', 'Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Undo', 'Redo'], ['Source'], ['Preview']]

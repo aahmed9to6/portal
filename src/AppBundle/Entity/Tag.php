@@ -34,39 +34,38 @@ class Tag extends AbstractEntity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      * @return Tag
      */
-    public function setTitle($title)
+    public function setTitle($title): Tag
     {
         $this->title = $title;
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getCourses()
+    public function getCourses(): ArrayCollection
     {
         return $this->courses;
     }
 
     /**
-     * @param mixed $courses
+     * @param Course[] $courses
      * @return Tag
      */
-    public function setCourses($courses)
+    public function setCourses($courses): Tag
     {
         $this->courses = $courses;
         return $this;
     }
-
 }
