@@ -1,6 +1,7 @@
 services:
-#    app.repository.<entity_name>:
-#        class: 'AppBundle\Repository\<Entity>Repository'
-#        factory: ["@doctrine", 'getRepository']
-#        arguments:
-#            - 'AppBundle:<Entity>'
+  AppBundle\Repository\TrainingRepository:
+      class: 'AppBundle\Repository\TrainingRepository'
+      public: true
+      factory: ["@doctrine", 'getRepository']
+      arguments:
+          - 'AppBundle:Training'

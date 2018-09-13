@@ -44,9 +44,9 @@ class Track extends AbstractEntity
     private $link;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", inversedBy="tracks")
+     * @ORM\ManyToMany(targetEntity="Training", inversedBy="tracks")
      */
-    private $courses;
+    private $trainings;
 
     /**
      * Track constructor.
@@ -54,7 +54,7 @@ class Track extends AbstractEntity
     public function __construct()
     {
         AbstractEntity::__construct();
-        $this->courses = new ArrayCollection();
+        $this->trainings = new ArrayCollection();
     }
 
     /**
@@ -161,18 +161,18 @@ class Track extends AbstractEntity
     /**
      * @return ArrayCollection
      */
-    public function getCourses()
+    public function getTrainings()
     {
-        return $this->courses;
+        return $this->trainings;
     }
 
     /**
-     * @param Course[] $courses
+     * @param Training[] $trainings
      * @return Track
      */
-    public function setCourses($courses): Track
+    public function setTrainings($trainings): Track
     {
-        $this->courses = $courses;
+        $this->trainings = $trainings;
         return $this;
     }
 }

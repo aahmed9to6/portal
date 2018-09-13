@@ -203,7 +203,7 @@ easy_admin:
             label: 'Courses'
             list:
                 title: '%%entity_label%% Listing'
-                help: 'A list of all the uploaded courses at <strong>%project_name%</strong> by <em>%organization_name%</em>'
+                help: 'A list of all the uploaded courses to <strong>%project_name%</strong> by <em>%organization_name%</em>'
                 fields:
                     - { property: 'title', label: 'Title' }
                     - { property: 'thumb', label: 'Thumbnail', type: 'image', base_path: '%images_path%' }

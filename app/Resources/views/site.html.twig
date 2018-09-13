@@ -39,7 +39,6 @@
     {% block stylesheets %}{% endblock %}
 </head>
 <body id="body" class="body-wrapper boxed-menu" >
-<!-- <div class="page-loader" style="background: url(img/preloader.gif) center no-repeat #fff;"></div> -->
 <!-- Preloader -->
 <div id="preloader" class="smooth-loader-wrapper">
     <div class="smooth-loader">
@@ -62,7 +61,7 @@
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                            <span class="sr-only">Toggle navigation</span>
+                            <span class="sr-only">{{ 'Toggle navigation'|trans(domain = 'menu') }}</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -76,14 +75,16 @@
                     <div class="collapse navbar-collapse navbar-ex1-collapse">
                         <ul class="nav navbar-nav navbar-right">
                             <li class="active">
-                                <a href="{{ path('homepage') }}">Home</a>
+                                <a href="{{ path('homepage') }}">{{ 'Home'|trans(domain = 'menu') }}</a>
                             </li>
                             <li class="active">
-                                <a href="{{ path('trainings_home') }}">Trainings</a>
+                                <a href="{{ path('trainings_home') }}">{{ 'Trainings'|trans(domain = 'menu') }}</a>
                             </li>
                         </ul>
                     </div>
-                    <a class="btn btn-default navbar-btn" href=""> + <span>Add Training</span></a>
+                    {% if app.user is not null %}
+                        <a class="btn btn-default navbar-btn" href="{{ path('easyadmin', {'entity': 'Training', 'action': 'new'}) }}"> + <span>{{ 'Add Training'|trans(domain = 'menu') }}</span></a>
+                    {% endif %}
                 </div>
             </nav>
         </div>
@@ -100,32 +101,32 @@
                             <a href="{{ path('homepage') }}" class="footerLogo">
                                 <img src="{{ logo_url }}" width="272" height="84" />
                             </a>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor</p>
+                            <p>{{ 'Coeus Solutions GmbH was founded in 2003 with a small team of 20. It grew to a team of over 60 with offices in Berlin, Munich, Lahore and presence in Hamburg. Over this period we have had steady growth and are focused on keeping business fundamentals strong while building a steady long term client base. Most of our business comes from clients who have been working with us for years.'|trans(domain = 'menu') }}</p>
                             <ul class="list-styled list-contact">
-                                <li><i class="fa fa-phone" aria-hidden="true"></i>[000] 000 000 000</li>
-                                <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="#">trainings@coeus-solutions.de</a></li>
+                                <li><i class="fa fa-phone" aria-hidden="true"></i>+92 42 3571 2424</li>
+                                <li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:trainings@coeus-solutions.de">trainings@coeus-solutions.de</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-3 col-xs-12">
                         <div class="footerInfoTitle">
-                            <h4>Links</h4>
+                            <h4>{{ 'Links'|trans(domain = 'footer') }}</h4>
                         </div>
                         <div class="useLink">
                             <ul class="list-unstyled">
-                                <li><a href="{{ path('easyadmin') }}">Dashboard</a></li>
-                                <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
+                                <li><a href="{{ path('easyadmin') }}">{{ 'Dashboard'|trans(domain = 'footer') }}</a></li>
+                                <li><a href="{{ path('fos_user_security_login') }}">{{ 'Login'|trans(domain = 'footer') }}</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-sm-2 col-xs-12">
                         <div class="footerInfoTitle">
-                            <h4>Company</h4>
+                            <h4>{{ 'Company'|trans(domain = 'footer') }}</h4>
                         </div>
                         <div class="useLink">
                             <ul class="list-unstyled">
-                                <li><a href="">Contact Us</a></li>
-                                <li><a href="">Terms and Conditions</a></li>
+                                <li><a href="">{{ 'Contact Us'|trans(domain = 'footer') }}</a></li>
+                                <li><a href="">{{ 'Terms and Conditions'|trans(domain = 'footer') }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -142,20 +143,19 @@
                             <div class="row">
                                 <div class="col-sm-5 col-sm-push-7 col-xs-12">
                                     <ul class="list-inline socialLink">
-                                        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://www.facebook.com/coeus.solutions" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://twitter.com/coeussolutions" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                                        <li><a href="https://www.linkedin.com/company/coeus-solutions" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
                                     </ul>
                                 </div>
                                 <div class="col-sm-7 col-sm-pull-5 col-xs-12">
                                     <div class="copyRightText">
-                                        <p>Copyright &copy; {{ 'now'|date('Y') }}. All Rights Reserved by <a href="{{ organization_url }}">{{ organization_name }}</a></p>
+                                        <p>{{ 'Copyright'|trans(domain = 'footer') }} &copy; {{ 'now'|date('Y') }}. {{ 'All Rights Reserved by'|trans(domain = 'footer') }} <a href="{{ organization_url }}">{{ organization_name }}</a></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

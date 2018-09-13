@@ -19,9 +19,9 @@ class Tag extends AbstractEntity
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", inversedBy="tags", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="Training", inversedBy="tags", cascade={"remove"})
      */
-    private $courses;
+    private $trainings;
 
     /**
      * Tag constructor.
@@ -29,7 +29,7 @@ class Tag extends AbstractEntity
     public function __construct()
     {
         AbstractEntity::__construct();
-        $this->courses = new ArrayCollection();
+        $this->trainings = new ArrayCollection();
     }
 
     /**
@@ -53,18 +53,18 @@ class Tag extends AbstractEntity
     /**
      * @return ArrayCollection
      */
-    public function getCourses(): ?ArrayCollection
+    public function getTrainings(): ?ArrayCollection
     {
-        return $this->courses;
+        return $this->trainings;
     }
 
     /**
-     * @param Course[] $courses
+     * @param Training[] $trainings
      * @return Tag
      */
-    public function setCourses($courses): Tag
+    public function setTrainings($trainings): Tag
     {
-        $this->courses = $courses;
+        $this->trainings = $trainings;
         return $this;
     }
 }

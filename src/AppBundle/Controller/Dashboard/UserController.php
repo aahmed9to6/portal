@@ -38,7 +38,7 @@ class UserController extends BaseAdminController
     /**
      * @param $user
      */
-    public function persistUserEntity($user)
+    public function persistUserEntity($user) :void
     {
         $this->get('fos_user.user_manager')->updateUser($user, false);
         parent::persistEntity($user);
@@ -47,7 +47,7 @@ class UserController extends BaseAdminController
     /**
      * @param $user
      */
-    public function updateUserEntity($user)
+    public function updateUserEntity($user) :void
     {
         $this->get('fos_user.user_manager')->updateUser($user, false);
         parent::updateEntity($user);

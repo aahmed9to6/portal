@@ -52,3 +52,8 @@ services:
         arguments:
             - 'mysql:host=%database_host%;port=%database_port%;dbname=%database_name%'
             - { db_table: session, db_username: '%database_user%', db_password: '%database_password%' }
+
+    AppBundle\Service\TrainingService:
+        public: true
+        arguments:
+          - '@AppBundle\Repository\TrainingRepository'

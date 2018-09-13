@@ -8,13 +8,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Course
+ * Class Training
  * @package AppBundle\Entity
 
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\TrainingRepository")
  * @Vich\Uploadable
  */
-class Course extends AbstractEntity
+class Training extends AbstractEntity
 {
     /**
      * @ORM\Column(type="string", options={"collation":"utf8mb4_unicode_ci"})
@@ -61,17 +61,17 @@ class Course extends AbstractEntity
     protected $outDated;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Track", mappedBy="courses", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Track", mappedBy="trainings", cascade={"remove"})
      */
     private $tracks;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", mappedBy="courses", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", mappedBy="trainings", cascade={"remove"})
      */
     private $tags;
 
     /**
-     * Course constructor.
+     * Training constructor.
      */
     public function __construct()
     {
@@ -90,9 +90,9 @@ class Course extends AbstractEntity
 
     /**
      * @param string $title
-     * @return Course
+     * @return Training
      */
-    public function setTitle($title): Course
+    public function setTitle($title): Training
     {
         $this->title = $title;
         return $this;
@@ -108,9 +108,9 @@ class Course extends AbstractEntity
 
     /**
      * @param string $description
-     * @return Course
+     * @return Training
      */
-    public function setDescription($description): Course
+    public function setDescription($description): Training
     {
         $this->description = $description;
         return $this;
@@ -126,9 +126,9 @@ class Course extends AbstractEntity
 
     /**
      * @param null|string $thumb
-     * @return Course
+     * @return Training
      */
-    public function setThumb(?string $thumb): Course
+    public function setThumb(?string $thumb): Training
     {
         $this->thumb = $thumb;
         return $this;
@@ -144,9 +144,9 @@ class Course extends AbstractEntity
 
     /**
      * @param null|File $thumbFile
-     * @return Course
+     * @return Training
      */
-    public function setThumbFile(?File $thumbFile): Course
+    public function setThumbFile(?File $thumbFile): Training
     {
         $this->thumbFile = $thumbFile;
         if ($thumbFile) {
@@ -165,9 +165,9 @@ class Course extends AbstractEntity
 
     /**
      * @param null|string $download
-     * @return Course
+     * @return Training
      */
-    public function setDownload(?string $download): Course
+    public function setDownload(?string $download): Training
     {
         $this->download = $download;
         return $this;
@@ -183,9 +183,9 @@ class Course extends AbstractEntity
 
     /**
      * @param null|File $downloadFile
-     * @return Course
+     * @return Training
      */
-    public function setDownloadFile(?File $downloadFile): Course
+    public function setDownloadFile(?File $downloadFile): Training
     {
         $this->downloadFile = $downloadFile;
         if ($downloadFile) {
@@ -204,9 +204,9 @@ class Course extends AbstractEntity
 
     /**
      * @param string $link
-     * @return Course
+     * @return Training
      */
-    public function setLink($link): Course
+    public function setLink($link): Training
     {
         $this->link = $link;
         return $this;
@@ -222,9 +222,9 @@ class Course extends AbstractEntity
 
     /**
      * @param mixed $outDated
-     * @return Course
+     * @return Training
      */
-    public function setOutDated($outDated): Course
+    public function setOutDated($outDated): Training
     {
         $this->outDated = $outDated;
         return $this;
@@ -240,9 +240,9 @@ class Course extends AbstractEntity
 
     /**
      * @param Track[] $tracks
-     * @return Course
+     * @return Training
      */
-    public function setTracks($tracks): Course
+    public function setTracks($tracks): Training
     {
         $this->tracks = $tracks;
         return $this;
@@ -258,9 +258,9 @@ class Course extends AbstractEntity
 
     /**
      * @param Tag[] $tags
-     * @return Course
+     * @return Training
      */
-    public function setTags($tags): Course
+    public function setTags($tags): Training
     {
         $this->tags = $tags;
         return $this;
